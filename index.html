@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#68785f" />
+  <meta name="description" content="Convite interativo do primeiro aniversário da Clara Liz." />
+  <title>Bosque da Clara Liz • 1 aninho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --green:#66765d;
+      --green-dark:#40503b;
+      --cream:#fbf7ed;
+      --paper:#fffdf7;
+      --peach:#e7a178;
+      --honey:#c89b52;
+      --brown:#6c4e3b;
+      --ink:#3f3a32;
+      --line:rgba(91,78,59,.16);
+      --shadow:0 22px 60px rgba(54,55,38,.13);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--ink);background:var(--cream);
+      font-family:"DM Sans",sans-serif;overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .grain{position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:20;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    }
+    .leaf{position:absolute;width:90px;height:35px;border-radius:100% 0 100% 0;background:#879978;opacity:.28;transform:rotate(-28deg)}
+    .leaf:after{content:"";position:absolute;left:45px;top:2px;width:2px;height:31px;background:#5f7055;transform:rotate(30deg)}
+    .leaf.a{top:12%;left:-22px}.leaf.b{top:42%;right:-28px;transform:rotate(150deg)}.leaf.c{bottom:11%;left:-20px;transform:rotate(18deg)}
+
+    #gate{
+      position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,244,205,.38), transparent 25%),
+        linear-gradient(180deg,#42533d,#6c7e61 62%,#4f6049);
+      color:#fff;transition:opacity .8s ease,visibility .8s ease;
+    }
+    #gate.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .gate-card{width:min(620px,100%);text-align:center;padding:42px 28px 38px;
+      border:1px solid rgba(255,255,255,.25);border-radius:38px;
+      background:rgba(255,255,255,.09);backdrop-filter:blur(12px);
+      box-shadow:0 30px 90px rgba(0,0,0,.22)}
+    .gate-fox{font-size:76px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.16));animation:bob 3s ease-in-out infinite}
+    @keyframes bob{50%{transform:translateY(-8px) rotate(2deg)}}
+    .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;opacity:.8}
+    .script{font-family:"Parisienne",cursive;font-weight:400}
+    .gate-card h1{font-family:"Cormorant Garamond",serif;font-size:clamp(54px,12vw,92px);line-height:.78;margin:18px 0 14px;font-weight:600}
+    .gate-card p{margin:0 auto 28px;max-width:420px;line-height:1.7;color:rgba(255,255,255,.86)}
+    .enter{
+      border:0;border-radius:999px;padding:15px 25px;cursor:pointer;background:#fff;color:var(--green-dark);
+      font-weight:700;box-shadow:0 12px 30px rgba(0,0,0,.18);transition:.25s transform,.25s box-shadow;
+    }
+    .enter:hover{transform:translateY(-2px);box-shadow:0 16px 35px rgba(0,0,0,.22)}
+
+    main{opacity:0;transition:opacity .9s ease}
+    body.ready main{opacity:1}
+    section{position:relative;padding:100px 22px}
+    .wrap{width:min(1050px,100%);margin:auto}
+
+    .hero{
+      min-height:100svh;display:flex;align-items:flex-end;padding:30px 22px 70px;overflow:hidden;
+      background:linear-gradient(180deg,rgba(40,54,36,.02),rgba(40,54,36,.5)),url("assets/clara.jpg") center/cover;
+    }
+    .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,45,29,.02) 25%,rgba(30,41,28,.72) 100%)}
+    .hero-content{position:relative;color:#fff;max-width:760px}
+    .hero-kicker{display:inline-flex;gap:9px;align-items:center;border:1px solid rgba(255,255,255,.3);
+      border-radius:999px;padding:9px 14px;background:rgba(20,35,20,.22);backdrop-filter:blur(8px);font-size:11px;letter-spacing:.17em;text-transform:uppercase}
+    .hero h2{font-family:"Cormorant Garamond",serif;font-size:clamp(64px,12vw,128px);line-height:.78;margin:22px 0 14px;font-weight:600;letter-spacing:-.035em}
+    .hero h2 span{display:block;font-family:"Parisienne",cursive;font-size:.63em;font-weight:400;line-height:.9;margin-left:12px}
+    .hero-sub{font-family:"Cormorant Garamond",serif;font-size:clamp(23px,4vw,34px);margin:0 0 28px}
+    .hero-date{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{padding:11px 15px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(8px);font-size:13px}
+    .scroll{position:absolute;right:24px;bottom:30px;writing-mode:vertical-rl;letter-spacing:.2em;text-transform:uppercase;font-size:10px;opacity:.7}
+
+    .intro{text-align:center;background:var(--cream)}
+    .intro h3,.section-title{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,7vw,68px);line-height:.95;font-weight:600;margin:12px 0}
+    .intro p{max-width:650px;margin:22px auto 0;line-height:1.9;color:#70695d;font-size:16px}
+    .flourish{color:var(--honey);font-size:22px;letter-spacing:.5em}
+
+    .story{background:#f0eadc;overflow:hidden}
+    .story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+    .story-copy{padding:20px}
+    .story-copy .eyebrow{color:var(--green)}
+    .story-copy p{line-height:1.9;color:#71695b}
+    .quote{font-family:"Cormorant Garamond",serif;font-size:30px;line-height:1.2;color:var(--green-dark);margin:28px 0}
+    .mini-forest{position:relative;min-height:430px;border-radius:34px;overflow:hidden;background:linear-gradient(180deg,#dfe6d5,#aab99a);box-shadow:var(--shadow)}
+    .mini-forest:before{content:"";position:absolute;inset:0;background:
+      radial-gradient(circle at 20% 25%,#fff9 0 2px,transparent 3px),
+      radial-gradient(circle at 75% 34%,#fff8 0 2px,transparent 3px),
+      radial-gradient(circle at 50% 15%,#fff7 0 1px,transparent 2px)}
+    .mini-photo{position:absolute;inset:24px 24px auto;height:280px;border-radius:26px;overflow:hidden;border:8px solid rgba(255,255,255,.72)}
+    .mini-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+    .fox-badge{position:absolute;bottom:24px;left:24px;background:#fffdf7;border-radius:22px;padding:14px 17px;box-shadow:0 10px 30px #3f4b3540;font-size:13px}
+
+    .details{background:#fffdf7}
+    .details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:38px}
+    .detail-card{padding:30px;border:1px solid var(--line);border-radius:26px;background:#fff;box-shadow:0 12px 35px rgba(60,56,40,.05);transition:.25s transform,.25s box-shadow}
+    .detail-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px rgba(60,56,40,.1)}
+    .detail-icon{font-size:30px}.detail-card h4{font-family:"Cormorant Garamond",serif;font-size:30px;margin:14px 0 7px;color:var(--green-dark)}
+    .detail-card p{margin:0;line-height:1.7;color:#746c60}
+    .detail-card strong{color:var(--brown)}
+
+    .map{background:var(--green-dark);color:#fff}
+    .map-grid{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center}
+    .map .eyebrow{color:#d9c58d}.map h3{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,70px);line-height:.9;margin:12px 0 20px}
+    .map p{color:#dbe1d5;line-height:1.8}
+    .map-box{min-height:330px;border-radius:32px;position:relative;overflow:hidden;background:
+      radial-gradient(circle at 30% 35%,#d6dfc5 0 2px,transparent 3px),
+      linear-gradient(135deg,#8d9d78,#c9d2b9)}
+    .map-box:before{content:"";position:absolute;inset:0;opacity:.55;background:
+      repeating-linear-gradient(18deg,transparent 0 38px,rgba(255,255,255,.55) 39px 41px,transparent 42px 80px),
+      repeating-linear-gradient(110deg,transparent 0 62px,rgba(71,87,61,.35) 63px 66px,transparent 67px 130px)}
+    .pin{position:absolute;left:54%;top:47%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50% 50% 50% 8px;background:#c88758;rotate:-45deg;box-shadow:0 12px 22px #2b392950}
+    .pin:after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff8ec;left:22px;top:22px}
+    .map-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border-radius:999px;font-weight:700;border:1px solid transparent;cursor:pointer;transition:.2s transform}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-light{background:#fff;color:var(--green-dark)}
+    .btn-ghost{background:transparent;color:#fff;border-color:#ffffff44}
+
+    .rsvp{background:#f1eadc}
+    .rsvp-card{background:#fffdf7;border:1px solid var(--line);border-radius:34px;padding:42px;box-shadow:var(--shadow);display:grid;grid-template-columns:.85fr 1.15fr;gap:42px}
+    .rsvp h3{font-family:"Cormorant Garamond",serif;font-size:58px;line-height:.85;margin:10px 0 18px;color:var(--green-dark)}
+    .rsvp p{color:#766d60;line-height:1.8}
+    form{display:grid;gap:14px}
+    label{font-size:12px;font-weight:700;letter-spacing:.04em;color:#655e52}
+    input,select{width:100%;margin-top:7px;border:1px solid var(--line);border-radius:16px;padding:14px 15px;background:#fff;font:inherit;color:var(--ink);outline:none}
+    input:focus,select:focus{border-color:#9aa98d;box-shadow:0 0 0 4px rgba(102,118,93,.1)}
+    .rsvp-submit{border:0;background:var(--green);color:#fff;padding:15px 18px;border-radius:16px;font-weight:700;cursor:pointer;margin-top:4px}
+    .confirmation{display:none;margin-top:15px;padding:14px 16px;border-radius:15px;background:#edf2e9;color:var(--green-dark);line-height:1.6;font-size:14px}
+
+    footer{background:#344331;color:#eef1e8;text-align:center;padding:58px 22px 72px}
+    footer .script{font-size:54px;color:#e4c98f}
+    footer p{opacity:.75;font-size:13px;line-height:1.7}
+    .tiny{font-size:11px;opacity:.45}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+    .reveal.show{opacity:1;transform:none}
+    @media(max-width:760px){
+      section{padding:76px 18px}
+      .hero{min-height:100svh;padding:25px 18px 48px}
+      .scroll{display:none}
+      .story-grid,.map-grid,.rsvp-card{grid-template-columns:1fr}
+      .details-grid{grid-template-columns:1fr}
+      .rsvp-card{padding:27px}
+      .mini-forest{min-height:390px}
+      .hero h2{font-size:70px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <div id="gate">
+    <div class="gate-card">
+      <div class="gate-fox">🦊</div>
+      <div class="eyebrow">Um convite para uma tarde especial</div>
+      <h1><span class="script">Bosque da</span><br>Clara Liz</h1>
+      <p>Entre flores, mel e pequenas descobertas, venha celebrar o primeiro aninho da nossa pequena exploradora.</p>
+      <button class="enter" id="enterBtn">✨ Entrar no bosque</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="leaf a"></div><div class="leaf b"></div>
+      <div class="hero-content wrap">
+        <div class="hero-kicker">🌿 1 aninho • 24 de outubro de 2026</div>
+        <h2><span>Bem-vindo ao</span>Bosque da Clara Liz</h2>
+        <p class="hero-sub">Entre flores e mel, Clara Liz faz 1 aninho.</p>
+        <div class="hero-date">
+          <span class="pill">🍯 15h30</span>
+          <span class="pill">🌸 River Lake Eusébio</span>
+        </div>
+      </div>
+      <div class="scroll">role para explorar ↓</div>
+    </section>
+
+    <section class="intro reveal">
+      <div class="wrap">
+        <div class="flourish">✦ · ✦ · ✦</div>
+        <h3>Nossa pequena exploradora<br>está crescendo!</h3>
+        <p>Com a bênção de Deus, venha celebrar e adoçar esse dia tão especial no bosque da Clara Liz. Sua presença é muito importante para nós. 🧡</p>
+      </div>
+    </section>
+
+    <section class="story">
+      <div class="wrap story-grid">
+        <div class="story-copy reveal">
+          <div class="eyebrow">Uma tarde para guardar</div>
+          <div class="quote">“Que cada descoberta da Clara seja cercada de flores, carinho e pessoas especiais.”</div>
+          <p>Preparamos tudo com muito carinho para receber quem faz parte da nossa história. Agora falta só você entrar nessa aventura com a gente.</p>
+          <div class="flourish">🌿 🍯 🌸</div>
+        </div>
+        <div class="mini-forest reveal">
+          <div class="mini-photo"><img src="assets/clara.jpg" alt="Clara Liz sorrindo vestida de raposinha"></div>
+          <div class="fox-badge">🦊 <strong>Pequena exploradora</strong><br>pronta para comemorar!</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details">
+      <div class="wrap">
+        <div class="eyebrow reveal" style="color:var(--green)">Guarde na agenda</div>
+        <h3 class="section-title reveal">Os detalhes da aventura</h3>
+        <div class="details-grid">
+          <article class="detail-card reveal">
+            <div class="detail-icon">🌸</div>
+            <h4>Quando?</h4>
+            <p><strong>24 de outubro de 2026</strong><br>às <strong>15h30</strong><br>Pedimos, com carinho, que seja pontual.</p>
+          </article>
+          <article class="detail-card reveal">
+            <div class="detail-icon">🍯</div>
+            <h4>Onde?</h4>
+            <p><strong>Condomínio River Lake Eusébio</strong><br>Av. Eusébio de Queiroz, 3491<br>Coaçu — Eusébio/CE</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="map">
+      <div class="wrap map-grid">
+        <div class="reveal">
+          <div class="eyebrow">Siga o caminho das flores</div>
+          <h3>Vamos nos encontrar no bosque.</h3>
+          <p>Av. Eusébio de Queiroz, 3491, Coaçu, Eusébio — CE, 61760-000.</p>
+          <div class="map-actions">
+            <a class="btn btn-light" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Av.%20Eus%C3%A9bio%20de%20Queiroz%2C%203491%2C%20Eus%C3%A9bio%2C%20CE">🗺️ Abrir no Maps</a>
+            <a class="btn btn-ghost" href="#rsvp">💌 Confirmar presença</a>
+          </div>
+        </div>
+        <div class="map-box reveal" aria-label="Ilustração do mapa">
+          <div class="pin"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp" id="rsvp">
+      <div class="wrap">
+        <div class="rsvp-card reveal">
+          <div>
+            <div class="eyebrow" style="color:var(--green)">Seu lugar no bosque</div>
+            <h3>Vem celebrar<br>com a gente?</h3>
+            <p>Pedimos a gentileza de confirmar sua presença até <strong>10/10/2026</strong>, para que possamos organizar tudo com carinho.</p>
+            <p>🧡 Será muito especial ter você nesse primeiro capítulo da história da Clara Liz.</p>
+          </div>
+          <div>
+            <form id="rsvpForm">
+              <label>Seu nome
+                <input id="name" required placeholder="Como devemos te chamar?">
+              </label>
+              <label>Você vai?
+                <select id="attendance" required>
+                  <option value="">Escolha uma opção</option>
+                  <option>Sim, estarei lá! 🧡</option>
+                  <option>Infelizmente não poderei ir</option>
+                </select>
+              </label>
+              <label>Quantidade de pessoas
+                <select id="guests">
+                  <option>1 pessoa</option>
+                  <option>2 pessoas</option>
+                  <option>3 pessoas</option>
+                  <option>4 pessoas</option>
+                  <option>5 pessoas</option>
+                  <option>6 pessoas</option>
+                </select>
+              </label>
+              <button class="rsvp-submit" type="submit">💌 Preparar confirmação</button>
+            </form>
+            <div class="confirmation" id="confirmation"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="script">Clara Liz</div>
+      <p>Um dia mágico para celebrar o primeiro aninho da nossa pequena. ✨</p>
+      <div class="tiny">Bosque da Clara Liz • 24.10.2026</div>
+    </footer>
+  </main>
+
+  <script>
+    const gate = document.getElementById('gate');
+    document.getElementById('enterBtn').addEventListener('click', () => {
+      gate.classList.add('hidden');
+      document.body.classList.add('ready');
+      setTimeout(() => document.querySelector('.hero').scrollIntoView({behavior:'smooth'}), 120);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const attendance = document.getElementById('attendance').value;
+      const guests = document.getElementById('guests').value;
+      const text = `Olá! Sou ${name}. ${attendance} Quantidade: ${guests}. Confirmo pelo convite do aniversário de 1 ano da Clara Liz. 🧡🦊`;
+      const url = 'https://api.whatsapp.com/send?phone=558591195522&text=' + encodeURIComponent(text);
+      const box = document.getElementById('confirmation');
+      box.style.display = 'block';
+      box.innerHTML = `Perfeito, <strong>${name}</strong>! Agora é só enviar sua confirmação pelo WhatsApp. 🧡<br><br><a class="btn btn-light" style="background:var(--green);color:#fff" target="_blank" rel="noopener" href="${url}">Abrir WhatsApp</a>`;
+    });
+  </script>
+</body>
+</html>
