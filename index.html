@@ -274,9 +274,6 @@
                   <option>1 pessoa</option>
                   <option>2 pessoas</option>
                   <option>3 pessoas</option>
-                  <option>4 pessoas</option>
-                  <option>5 pessoas</option>
-                  <option>6 pessoas</option>
                 </select>
               </label>
               <button class="rsvp-submit" type="submit">💌 Preparar confirmação</button>
@@ -313,7 +310,7 @@
       const attendance = document.getElementById('attendance').value;
       const guests = document.getElementById('guests').value;
       const text = `Olá! Sou ${name}. ${attendance} Quantidade: ${guests}. Confirmo pelo convite do aniversário de 1 ano da Clara Liz. 🧡🦊`;
-      const url = 'https://api.whatsapp.com/send?phone=558591195522&text=' + encodeURIComponent(text);
+      const url = 'https://api.whatsapp.com/send?phone=558592376560&text=' + encodeURIComponent(text);
       const box = document.getElementById('confirmation');
       box.style.display = 'block';
       box.innerHTML = `Perfeito, <strong>${name}</strong>! Agora é só enviar sua confirmação pelo WhatsApp. 🧡<br><br><a class="btn btn-light" style="background:var(--green);color:#fff" target="_blank" rel="noopener" href="${url}">Abrir WhatsApp</a>`;
